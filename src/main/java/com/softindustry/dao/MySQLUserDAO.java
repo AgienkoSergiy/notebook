@@ -31,13 +31,17 @@ public class MySQLUserDAO implements UserDAO {
             "  `sex` VARCHAR(1) NULL," +
             "  `phone_number` VARCHAR(20) NULL," +
             "  PRIMARY KEY (`id`));";
-    private static final String FILL_TABLE_QUERY = "";
+    private static final String FILL_TABLE_QUERY = "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `sex`, `phone_number`) VALUES ('Кравцов', 'Иван', '25', 'м', '123456');" +
+            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `sex`, `phone_number`) VALUES ('Авдеев', 'Николай', '23', 'м', '12345');" +
+            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `sex`, `phone_number`) VALUES ('Лавкрафт', 'Говард', '64', 'м', '123456');" +
+            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `sex`, `phone_number`) VALUES ('Ахматова', 'Анна', '35', 'ж', '1234');" +
+            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `sex`, `phone_number`) VALUES ('Заюшкина', 'Даниэлла', '31', 'ж', '123456');";
 
 
     public MySQLUserDAO() {
         new DBUtil();
         createTable();
-        fillTable();
+        //fillTable();
     }
 
     @Override

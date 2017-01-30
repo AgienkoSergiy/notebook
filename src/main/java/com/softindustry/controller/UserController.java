@@ -19,9 +19,9 @@ public class UserController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    private static String ADD_OR_UPDATE = "/user.jsp";
-    private static String LIST_USER = "/listUser.jsp";
-    private static String SEARCH = "/search.jsp";
+    private static String ADD_OR_UPDATE = "/WEB-INF/views/user.jsp";
+    private static String LIST_USER = "/WEB-INF/views/listUser.jsp";
+    private static String SEARCH = "/WEB-INF/views/search.jsp";
 
     private UserService userService;
 
@@ -51,11 +51,10 @@ public class UserController extends HttpServlet {
             case "search": //TODO default?
                 forward = SEARCH;
                 break;
-
+            default: forward = LIST_USER;
         }
         RequestDispatcher view = request.getRequestDispatcher( forward );
         view.forward(request, response);
-
     }
 
     @Override
@@ -79,6 +78,5 @@ public class UserController extends HttpServlet {
         RequestDispatcher view = request.getRequestDispatcher(LIST_USER);
         //request.setAttribute("users", userService.getAllUsers());
         view.forward(request, response);
-
     }
 }
