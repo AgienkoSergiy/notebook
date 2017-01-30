@@ -1,4 +1,4 @@
-package com.softindustry.model.entity;
+package com.softindustry.model;
 
 /**
  * Created by konstr6 on 27.01.2017.
@@ -9,7 +9,7 @@ public class User {
     private String surname;
     private String name;
     private int age;
-    private char sex;
+    private char gender;
     private String phoneNumber;
 
     public int getId() {
@@ -44,12 +44,12 @@ public class User {
         this.age = age;
     }
 
-    public char getSex() {
-        return sex;
+    public char getGender() {
+        return gender;
     }
 
-    public void setSex(char sex) {
-        this.sex = sex;
+    public void setGender(char gender) {
+        this.gender = gender;
     }
 
     public String getPhoneNumber() {
