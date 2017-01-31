@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 /**
- * Created by skyrvr on 27.01.17.
+ * Created by -- on 27.01.17.
  */
 public class DBUtil { //TODO add abstraction
 

@@ -4,6 +4,8 @@ import com.softindustry.dao.MySQLUserDAO;
 import com.softindustry.dao.UserDAO;
 import com.softindustry.model.User;
 
+import java.util.List;
+
 /**
  * Created by skyrvr on 28.01.17.
  */
@@ -20,7 +22,7 @@ public class UserService {
         userDAO.addUser(user);
     }
 
-    User getUserById(int userId){
+    public User getUserById(int userId){
         return userDAO.getUserById(userId);
     }
 
@@ -30,5 +32,9 @@ public class UserService {
 
     public void deleteUser(int userId){
         userDAO.deleteUser(userId);
+    }
+
+    public List<User> getAllUsers() {
+        return userDAO.getAllUsers();
     }
 }

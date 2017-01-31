@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.softindustry.util.DBUtil.getConnection;
 
@@ -15,28 +17,28 @@ import static com.softindustry.util.DBUtil.getConnection;
  */
 public class MySQLUserDAO implements UserDAO {
 
-    private static final String ADD_USER_QUERY = "INSERT INTO notebook.users (" +
-            "surname, name, age, sex, phone_number) VALUES (?, ?, ?, ?, ?);";
-    private static final String GET_USER_QUERY = "SELECT surname, name, age, sex, phone_number" +
-            " FROM notebook.users WHERE id=?;";
-    private static final String UPDATE_USER_QUERY = "UPDATE notebook.users" +
-            " SET surname=?, name=?, age=?, sex=?, phone_number=? WHERE id=?;";
-    private static final String DELETE_USER_QUERY = "DELETE FROM notebook.users WHERE id=?;";
-
     private static final String CREATE_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS `notebook`.`users` (" +
             "  `id` INT NOT NULL AUTO_INCREMENT," +
             "  `surname` VARCHAR(45) NULL," +
             "  `name` VARCHAR(45) NULL," +
             "  `age` INT NULL," +
-            "  `sex` VARCHAR(1) NULL," +
+            "  `gender` VARCHAR(1) NULL," +
             "  `phone_number` VARCHAR(20) NULL," +
             "  PRIMARY KEY (`id`));";
-    private static final String FILL_TABLE_QUERY = "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `sex`, `phone_number`) VALUES ('Кравцов', 'Иван', '25', 'м', '123456');" +
-            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `sex`, `phone_number`) VALUES ('Авдеев', 'Николай', '23', 'м', '12345');" +
-            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `sex`, `phone_number`) VALUES ('Лавкрафт', 'Говард', '64', 'м', '123456');" +
-            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `sex`, `phone_number`) VALUES ('Ахматова', 'Анна', '35', 'ж', '1234');" +
-            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `sex`, `phone_number`) VALUES ('Заюшкина', 'Даниэлла', '31', 'ж', '123456');";
+    private static final String FILL_TABLE_QUERY = "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `gender`, `phone_number`) VALUES ('Кравцов', 'Иван', '25', 'м', '123456');" +
+            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, ``, `phone_number`) VALUES ('Авдеев', 'Николай', '23', 'м', '12345');" +
+            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `gender`, `phone_number`) VALUES ('Лавкрафт', 'Говард', '64', 'м', '123456');" +
+            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `gender`, `phone_number`) VALUES ('Ахматова', 'Анна', '35', 'ж', '1234');" +
+            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `gender`, `phone_number`) VALUES ('Заюшкина', 'Даниэлла', '31', 'ж', '123456');";
 
+    private static final String ADD_USER_QUERY = "INSERT INTO notebook.users (" +
+            "surname, name, age, gender, phone_number) VALUES (?, ?, ?, ?, ?);";
+    private static final String GET_USER_QUERY = "SELECT surname, name, age, gender, phone_number" +
+            " FROM notebook.users WHERE id=?;";
+    private static final String UPDATE_USER_QUERY = "UPDATE notebook.users" +
+            " SET surname=?, name=?, age=?, gender=?, phone_number=? WHERE id=?;";
+    private static final String DELETE_USER_QUERY = "DELETE FROM notebook.users WHERE id=?;";
+    private static final String GET_ALL_QUERY = "SELECT * FROM notebook.users;";
 
     public MySQLUserDAO() {
         new DBUtil();
@@ -76,7 +78,8 @@ public class MySQLUserDAO implements UserDAO {
                     user.setSurname(rs.getString("surname"));
                     user.setName(rs.getString("name"));
                     user.setAge(rs.getInt("age"));
-                    user.setGender(rs.getString("sex").charAt(0));
+                    user.setGender(rs.getString("gender").charAt(0));
+                    user.setPhoneNumber(rs.getString("phone_number"));
                 }
             } catch (SQLException e) {
                 conn.rollback();
@@ -98,7 +101,7 @@ public class MySQLUserDAO implements UserDAO {
                 st.setString(4,String.valueOf(user.getGender()));
                 st.setString(5,user.getPhoneNumber());
                 st.setInt(6,user.getId());
-                st.executeUpdate();
+                st.execute();
                 conn.commit();
             } catch (SQLException e) {
                 conn.rollback();
@@ -122,6 +125,31 @@ public class MySQLUserDAO implements UserDAO {
             }
         } catch (SQLException e1) {
             throw new RuntimeException("Connection problem occurred ", e1);
+        }
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        try (Connection conn = getConnection()) {
+            try (PreparedStatement st = conn.prepareStatement(GET_ALL_QUERY)) {
+                ResultSet rs = st.executeQuery();
+                List<User> list = new ArrayList<>();
+                while(rs.next()) {
+                    User user = new User();
+                    user.setId(Integer.parseInt(rs.getString("id")));
+                    user.setSurname(rs.getString("surname"));
+                    user.setName(rs.getString("name"));
+                    user.setAge(rs.getInt("age"));
+                    user.setGender(rs.getString("gender").charAt(0));
+                    user.setPhoneNumber(rs.getString("phone_number"));
+                    list.add(user);
+                }
+                return list;
+            } catch (SQLException e) {
+                throw new RuntimeException("Fail to get all users", e);
+            }
+        } catch (SQLException e1) {
+            throw new RuntimeException("A problem with connection", e1);
         }
     }
 
