@@ -153,6 +153,7 @@ public class MySQLUserDAO implements UserDAO {
         }
     }
 
+
     /*
     * Creating table and filling it with test data
     * */

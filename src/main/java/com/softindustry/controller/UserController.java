@@ -19,9 +19,9 @@ public class UserController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    private static String ADD_OR_UPDATE = "/WEB-INF/views/user.jsp";
-    private static String LIST_USER = "/WEB-INF/views/usersList.jsp";
-    private static String SEARCH = "/WEB-INF/views/search.jsp";
+    private static String ADD_OR_UPDATE = "user.jsp";
+    private static String LIST_USER = "usersList.jsp";
+    private static String SEARCH = "search.jsp";
 
     private UserService userService;
 
@@ -34,27 +34,32 @@ public class UserController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String forward;
         String action = request.getParameter("action");
-
-        switch (action){
-            case "create":
-                forward = ADD_OR_UPDATE;
-                break;
-            case "update":
-                forward = ADD_OR_UPDATE;
-                int userId = Integer.parseInt(request.getParameter("userId"));
-                request.setAttribute("user",userService.getUserById(userId));
-                break;
-            case "delete":
-                userId = Integer.parseInt(request.getParameter("userId"));
-                userService.deleteUser(userId);
-                forward = LIST_USER;
-                request.setAttribute("users", userService.getAllUsers());
-                break;
-            case "search":
-                forward = SEARCH;
-                break;
-            default: forward = LIST_USER;
-                request.setAttribute("users", userService.getAllUsers());
+        if(action==null){
+            forward = LIST_USER;
+            request.setAttribute("users", userService.getAllUsers());
+        }
+        else{
+            switch (action){
+                case "create":
+                    forward = ADD_OR_UPDATE;
+                    break;
+                case "update":
+                    forward = ADD_OR_UPDATE;
+                    int userId = Integer.parseInt(request.getParameter("userId"));
+                    request.setAttribute("user",userService.getUserById(userId));
+                    break;
+                case "delete":
+                    userId = Integer.parseInt(request.getParameter("userId"));
+                    userService.deleteUser(userId);
+                    forward = LIST_USER;
+                    request.setAttribute("users", userService.getAllUsers());
+                    break;
+                case "search":
+                    forward = SEARCH;
+                    break;
+                default: forward = LIST_USER;
+                    request.setAttribute("users", userService.getAllUsers());
+            }
         }
         RequestDispatcher view = request.getRequestDispatcher(forward);
         view.forward(request, response);
