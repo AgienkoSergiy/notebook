@@ -1,5 +1,6 @@
 package com.softindustry.model;
 
+
 /**
  * Created by konstr6 on 27.01.2017.
  */

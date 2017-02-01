@@ -67,25 +67,34 @@ public class UserController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher view;
         request.setCharacterEncoding("UTF-8");
-        User user = new User();
-        user.setName(request.getParameter("name"));
-        user.setSurname(request.getParameter("surname"));
-        user.setAge(Integer.parseInt(request.getParameter("age")));
-        user.setGender(request.getParameter("gender").charAt(0));
-        user.setPhoneNumber(request.getParameter("phone_number"));
+        String dataEntryErrors=userService.getDataEntryErrors(request);
         String userId = request.getParameter("userId");
-        if(userId == null || userId.isEmpty())
-        {
-            userService.addUser(user);
+        if(dataEntryErrors.isEmpty()){
+            User user = new User();
+            user.setName(request.getParameter("name"));
+            user.setSurname(request.getParameter("surname"));
+            user.setAge(Integer.parseInt(request.getParameter("age")));
+            user.setGender(request.getParameter("gender").charAt(0));
+            user.setPhoneNumber(request.getParameter("phone_number"));
+            if(userId == null || userId.isEmpty()){
+                userService.addUser(user);
+            }
+            else{
+                user.setId(Integer.parseInt(userId));
+                userService.updateUser(user);
+            }
+            request.setAttribute("users", userService.getAllUsers());
+            view = request.getRequestDispatcher(LIST_USER);
         }
-        else
-        {
-            user.setId(Integer.parseInt(userId));
-            userService.updateUser(user);
+        else{
+            if(userId!=null && !userId.isEmpty()){
+                request.setAttribute("user",userService.getUserById(Integer.parseInt(userId)));
+            }
+            request.setAttribute("errors",dataEntryErrors);
+            view = request.getRequestDispatcher(ADD_OR_UPDATE);
         }
-        RequestDispatcher view = request.getRequestDispatcher(LIST_USER);
-        request.setAttribute("users", userService.getAllUsers());
         view.forward(request, response);
     }
 }

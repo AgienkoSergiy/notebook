@@ -4,7 +4,12 @@
     <title>User</title>
 </head>
 <body>
-<form name="contact_form" action="save" method="post" onsubmit="return checkFields()">
+<p>
+    <a href="${pageContext.request.contextPath}/users">Весь список</a>
+    <a href="${pageContext.request.contextPath}/user?action=create">Добавить пользователя </a>
+    <a href="${pageContext.request.contextPath}/user?action=search">Поиск </a>
+</p>
+<form name="contact_form" action="users" method="post" onsubmit="checkFields();">
     <table>
         <c:choose>
             <c:when test="${user==null}">
@@ -48,13 +53,14 @@
             <td id="phone_valid"></td>
         </tr>
     </table>
+    <p>${errors}</p>
     <p>
         <input type="hidden" name="userId" value="${user.id}" />
         <input id="ok_button" type="submit" value="OK"/>
-        <input type="reset" value="Очистить"/>
     </p>
 </form>
-<script>
+
+<script id="validation">
     var isNameValid = false;
     var isSurnameValid = false;
     var isAgeValid = false;
@@ -63,14 +69,14 @@
 
     function validSurname(){
         var surname = document.getElementById("surname").value;
-        var regex = new RegExp("^[а-яА-Я]{3,20}$");
+        var regex = new RegExp("^[а-яА-Я]{2,20}$");
         var message;
         if(regex.test(surname)){
-            message = "Верно";
+            message = "Ок";
             isSurnameValid = true;
         }
         else {
-            message = "Ошибка! Поле принимает 3-20 букв кириллицы";
+            message = "Ошибка! Поле принимает 2-20 букв кириллицы";
             isSurnameValid = false;
         }
         document.getElementById("surname_valid").innerHTML = message;
@@ -79,13 +85,13 @@
     function validName(){
         var message;
         var name = document.getElementById("name").value;
-        var regex = new RegExp("^[а-яА-Я]{3,20}$");
+        var regex = new RegExp("^[а-яА-Я]{2,20}$");
         if(regex.test(name)){
-            message = "Верно";
+            message = "Ок";
             isNameValid = true;
         }
         else {
-            message = "Ошибка! Поле принимает 3-20 букв кириллицы";
+            message = "Ошибка! Поле принимает 2-20 букв кириллицы";
             isNameValid = false;
         }
         document.getElementById("name_valid").innerHTML = message;
@@ -95,11 +101,11 @@
         var message;
         var age = document.getElementById("age").value;
         if(age > 3 && age < 150){
-            message = "Верно";
+            message = "Ок";
             isAgeValid = true;
         }
         else {
-            message = "Ошибка! Введите правдоподобное число(от 3 до 150)";
+            message = "Ошибка! Введите правдоподобное число(от 4 до 150)";
             isAgeValid = false;
         }
         document.getElementById("age_valid").innerHTML = message;
@@ -108,8 +114,8 @@
     function validGender(){
         var message;
         var gender = document.getElementById("gender").value;
-        if(gender!==""){
-            message = "Верно";
+        if(gender==="м"|| gender==="ж"){
+            message = "Ок";
             isGenderValid = true;
         }
         else {
@@ -120,11 +126,11 @@
     }
 
     function validPhoneNumber(){
-        var message = "check";
+        var message;
         var phoneNumber = document.getElementById("phone_number").value;
         var regex = new RegExp("^\\+\\d{2}\\(\\d{3}\\)\\d{3}-\\d{2}-\\d{2}$");
         if (regex.test(phoneNumber)){
-            message = "Верно";
+            message = "Ок";
             isPhoneNumberValid = true;
         }
         else {
@@ -140,11 +146,10 @@
         validAge();
         validGender();
         validPhoneNumber();
-        document.getElementById("res").innerHTML = isSurnameValid.toString()+isNameValid.toString()+isAgeValid.toString()+
-                isPhoneNumberValid.toString();
         if(isSurnameValid && isNameValid &&  isAgeValid && isPhoneNumberValid&&isGenderValid){
             return true;
         }else{
+            event.preventDefault();
             alert("Проверьте правильность заполнения полей!");
             return false;
         }
