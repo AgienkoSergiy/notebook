@@ -57,6 +57,10 @@ public class UserController extends HttpServlet {
                 case "search":
                     forward = SEARCH;
                     break;
+                case "get_results":
+                    forward = SEARCH;
+                    request.setAttribute("users", userService.getSearchResults(request));
+                    break;
                 default: forward = LIST_USER;
                     request.setAttribute("users", userService.getAllUsers());
             }

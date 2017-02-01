@@ -16,6 +16,6 @@ import java.util.List;
     User getUserById(int userId);
     void updateUser(User user);
     void deleteUser(int userId); //TODO Explain adding delete method in readme file
-
     List<User> getAllUsers();
+    List<User> getUsersByQuery(String query);
 }

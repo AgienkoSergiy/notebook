@@ -5,7 +5,10 @@ import com.softindustry.dao.UserDAO;
 import com.softindustry.model.User;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,6 +26,53 @@ public class UserService {
 
     public void addUser(User user) {
         userDAO.addUser(user);
+    }
+
+
+
+    public User getUserById(int userId){
+        return userDAO.getUserById(userId);
+    }
+
+    public void updateUser(User user){
+        userDAO.updateUser(user);
+    }
+
+    public void deleteUser(int userId){
+        userDAO.deleteUser(userId);
+    }
+
+    public List<User> getAllUsers() {
+        return userDAO.getAllUsers();
+    }
+
+    public List<User> getSearchResults(HttpServletRequest request){
+        Map<String,String> searchParameters = new HashMap<>();
+        for(String parameterKey:request.getParameterMap().keySet()){
+            String parameterValue = request.getParameter(parameterKey);
+            if(parameterValue!=null && !parameterValue.isEmpty()&& !parameterKey.equals("action")){
+                searchParameters.put(parameterKey,parameterValue);
+            }
+        }
+        if(searchParameters.isEmpty()){
+            return null;
+        }
+        return userDAO.getUsersByQuery(getSearchQuery(searchParameters));
+    }
+
+    private String getSearchQuery(Map<String,String> searchParameters){
+        String query = "SELECT * FROM notebook.users WHERE";
+        int parametersCount=searchParameters.size();
+        int index = 1;
+        for(String parameterKey:searchParameters.keySet()){
+            String parameterValue = searchParameters.get(parameterKey);
+            query+=" "+parameterKey+ " LIKE '%"+parameterValue+"%'";
+            if(index<parametersCount){
+                query+=" AND";
+            }
+            index++;
+        }
+        return query;
     }
 
     public String getDataEntryErrors(HttpServletRequest request){
@@ -56,21 +106,5 @@ public class UserService {
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(string);
         return m.matches();
-    }
-
-    public User getUserById(int userId){
-        return userDAO.getUserById(userId);
-    }
-
-    public void updateUser(User user){
-        userDAO.updateUser(user);
-    }
-
-    public void deleteUser(int userId){
-        userDAO.deleteUser(userId);
-    }
-
-    public List<User> getAllUsers() {
-        return userDAO.getAllUsers();
     }
 }

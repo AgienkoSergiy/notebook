@@ -40,8 +40,10 @@ public class MySQLUserDAO implements UserDAO {
     private static final String DELETE_USER_QUERY = "DELETE FROM notebook.users WHERE id=?;";
     private static final String GET_ALL_QUERY = "SELECT * FROM notebook.users;";
 
+    DBUtil dbUtil;
+
     public MySQLUserDAO() {
-        new DBUtil();
+        dbUtil = new DBUtil();
         createTable();
         //fillTable();
     }
@@ -133,18 +135,7 @@ public class MySQLUserDAO implements UserDAO {
         try (Connection conn = getConnection()) {
             try (PreparedStatement st = conn.prepareStatement(GET_ALL_QUERY)) {
                 ResultSet rs = st.executeQuery();
-                List<User> list = new ArrayList<>();
-                while(rs.next()) {
-                    User user = new User();
-                    user.setId(Integer.parseInt(rs.getString("id")));
-                    user.setSurname(rs.getString("surname"));
-                    user.setName(rs.getString("name"));
-                    user.setAge(rs.getInt("age"));
-                    user.setGender(rs.getString("gender").charAt(0));
-                    user.setPhoneNumber(rs.getString("phone_number"));
-                    list.add(user);
-                }
-                return list;
+                return getUsersList(rs);
             } catch (SQLException e) {
                 throw new RuntimeException("Fail to get all users", e);
             }
@@ -153,6 +144,34 @@ public class MySQLUserDAO implements UserDAO {
         }
     }
 
+    @Override
+    public List<User> getUsersByQuery(String query) {
+        try (Connection conn = getConnection()) {
+            try (PreparedStatement st = conn.prepareStatement(query)) {
+                ResultSet rs = st.executeQuery();
+                return getUsersList(rs);
+            } catch (SQLException e) {
+                throw new RuntimeException("Fail to search users", e);
+            }
+        } catch (SQLException e1) {
+            throw new RuntimeException("A problem with connection", e1);
+        }
+    }
+
+    private List<User> getUsersList(ResultSet rs)throws SQLException {
+        List<User> list = new ArrayList<>();
+        while(rs.next()) {
+            User user = new User();
+            user.setId(Integer.parseInt(rs.getString("id")));
+            user.setSurname(rs.getString("surname"));
+            user.setName(rs.getString("name"));
+            user.setAge(rs.getInt("age"));
+            user.setGender(rs.getString("gender").charAt(0));
+            user.setPhoneNumber(rs.getString("phone_number"));
+            list.add(user);
+        }
+        return list;
+    }
 
     /*
     * Creating table and filling it with test data
