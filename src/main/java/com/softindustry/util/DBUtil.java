@@ -13,7 +13,7 @@ import java.util.Properties;
  */
 public class DBUtil { //TODO add abstraction
 
-    private static final String PROPERTY_FILE_PATH = "mysql.properties";
+    private static final String PROPERTY_FILE_PATH = "db.properties";
 
     private static BasicDataSource dataSource; //TODO why apache? remake to plain JDBC?
 

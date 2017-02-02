@@ -44,7 +44,7 @@ public class MySQLUserDAO implements UserDAO {
 
     public MySQLUserDAO() {
         dbUtil = new DBUtil();
-        createTable();
+        //createTable();
         //fillTable();
     }
 

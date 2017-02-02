@@ -4,10 +4,10 @@
     <title>Список пользователей</title>
 </head>
 <body>
-    <p>
-        <a href="${pageContext.request.contextPath}/user?action=create">Добавить пользователя </a>
-        <a href="${pageContext.request.contextPath}/user?action=search">Поиск </a>
-    </p>
+    <h1>Записная книжка</h1>
+    <p><a href="${pageContext.request.contextPath}/user?action=create">Добавить пользователя</a></p>
+    <p> <a href="${pageContext.request.contextPath}/users">Список всех пользователей</a></p>
+    <p><a href="${pageContext.request.contextPath}/user?action=search">Поиск</a></p>
     <c:choose>
         <c:when test="${empty users}">
             <p>Ваша записная книжка пуста</p>
