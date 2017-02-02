@@ -13,23 +13,23 @@
         <caption>Введите критерии поиска</caption>
         <tr>
             <td align="right"><label for="surname">Фамилия (только кириллица):</label></td>
-            <td><input id="surname" type="text" name="surname" size="50"/></td>
+            <td><input id="surname" type="text" name="surname" size="50"  value="${param.surname}"/></td>
             <td id="surname_valid"></td>
         </tr>
         <tr>
             <td align="right"><label for="name">Имя (только кириллица):</label></td>
-            <td><input id="name" type="text" name="name" size="50" /></td>
+            <td><input id="name" type="text" name="name" size="50" value="${param.name}" /></td>
             <td id="name_valid"></td>
         </tr>
         <tr>
             <td align="right"><label for="age">Возраст:</label></td>
-            <td><input id="age" type="text" name="age" size="50"/></td>
+            <td><input id="age" type="text" name="age" size="50" value="${param.age}"/></td>
             <td id="age_valid"></td>
         </tr>
         <tr>
             <td align="right"><label for="gender">Пол:</label></td>
             <td>
-                <select id="gender" name="gender" onchange="validGender()">
+                <select id="gender" name="gender">
                     <option disabled selected>Выберите пол:</option>
                     <option value="м">Мужчина</option>
                     <option value="ж">Женщина</option>
@@ -39,7 +39,7 @@
         </tr>
         <tr>
             <td align="right"><label for="phone_number">Номер телефона в формате +хх(ххх)ххх-хх-хх:</label></td>
-            <td><input id="phone_number" type="text" name="phone_number" size="50"/></td>
+            <td><input id="phone_number" type="text" name="phone_number" size="50" value="${param.phone_number}"/></td>
             <td id="phone_valid"></td>
         </tr>
     </table>
