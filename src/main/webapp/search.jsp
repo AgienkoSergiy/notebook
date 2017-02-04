@@ -10,7 +10,7 @@
     <p> <a href="${pageContext.request.contextPath}/users">Список всех пользователей</a></p>
 
 
-    <form name="search_form" action="redirect:search" method="get"> <%--TODO implement PRG pattern--%>
+    <form name="search_form" action="search" method="get"> <%--TODO implement PRG pattern--%>
         <table>
             <caption>Введите критерии поиска</caption>
             <tr>
