@@ -1,4 +1,4 @@
-package com.softindustry.controller;
+package com.softindustry.servlet;
 
 import com.softindustry.model.User;
 import com.softindustry.service.UserService;
@@ -14,18 +14,18 @@ import java.io.IOException;
 /**
  * Created by skyrvr on 27.01.17.
  */
-@WebServlet(name = "UserController")
-public class UserController extends HttpServlet {
+@WebServlet(name = "UserServlet") //TODO servlets 3.0 implementation must be done
+public class UserServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    private static String ADD_OR_UPDATE = "user.jsp";
-    private static String LIST_USER = "usersList.jsp";
-    private static String SEARCH = "search.jsp";
+    private static String ADD_OR_UPDATE = "/user.jsp";
+    private static String LIST_USER = "/usersList.jsp";
+    private static String SEARCH = "/search.jsp";
 
     private UserService userService;
 
-    public UserController() {
+    public UserServlet() {
         super();
         userService = new UserService();
     }

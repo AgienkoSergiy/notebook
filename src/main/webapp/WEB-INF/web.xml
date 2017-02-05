@@ -13,7 +13,7 @@
     </jsp-config>
     <servlet>
         <servlet-name>UserController</servlet-name>
-        <servlet-class>com.softindustry.controller.UserController</servlet-class>
+        <servlet-class>com.softindustry.servlet.UserServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
