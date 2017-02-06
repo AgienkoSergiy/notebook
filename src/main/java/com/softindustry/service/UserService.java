@@ -1,6 +1,5 @@
 package com.softindustry.service;
 
-import com.softindustry.dao.MySQLUserDAO;
 import com.softindustry.dao.UserDAO;
 import com.softindustry.model.User;
 
@@ -8,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,7 +19,7 @@ public class UserService {
 
     public UserService() {
         super();
-        userDAO = new MySQLUserDAO();
+        userDAO = new UserDAO();
     }
 
     public void addUser(User user) {

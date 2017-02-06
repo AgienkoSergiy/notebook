@@ -11,7 +11,7 @@ import java.util.Properties;
 /**
  * Created by -- on 27.01.17.
  */
-public class DBUtil { //TODO add abstraction
+public class DBUtil {
 
     private static final String PROPERTY_FILE_PATH = "db.properties";
 
@@ -38,7 +38,6 @@ public class DBUtil { //TODO add abstraction
             throw new RuntimeException("Property file reading error ", e);
         }
     }
-
 
     public static Connection getConnection() throws SQLException {
         Connection conn = dataSource.getConnection();
