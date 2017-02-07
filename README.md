@@ -24,3 +24,6 @@ Open your web browser to:
 To stop Jetty:
 
   use <kbd>CTRL</kbd>+<kbd>C</kbd>
+  
+##Technologies used
+Development of the application involved usage of JSP, Servlet API, Jetty(embedded), JDBC, MySQL.
