@@ -7,7 +7,7 @@ Apache Maven and MySQL Server need to be installed on your PC to run this projec
 
 
 ##Install
-This is a maven project, to build run from project directory:
+This is a maven project, to build it, run from project directory:
 
     $ mvn clean package
 
