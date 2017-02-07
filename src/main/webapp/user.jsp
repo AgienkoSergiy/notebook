@@ -7,16 +7,20 @@
     <h1>Записная книжка</h1>
     <p> <a href="${pageContext.request.contextPath}/users">Список всех пользователей</a></p>
     <p><a href="${pageContext.request.contextPath}/user?action=search">Поиск</a></p>
-    <form name="contact_form" action="users" method="post" onsubmit="checkFields();">
+    <form name="contact_form" action="user?action=show_all" method="post" onsubmit="checkFields();">
         <table>
             <c:choose>
-                <c:when test="${user==null}">
+                <c:when test="${user==null || user.id==0}">
                     <caption>Заполните поля</caption>
                 </c:when>
                 <c:otherwise>
                     <caption>Редактирование информации</caption>
-                    <p><a href="${pageContext.request.contextPath}/user?action=delete&userId=${user.id}">Удалить пользователя</a></p>
-                     <%--TODO js confirmation--%>
+                    <p>
+                        <a onclick="confirmDeletion();"
+                          href="${pageContext.request.contextPath}/user?action=delete&userId=${user.id}">
+                        Удалить пользователя
+                        </a>
+                    </p>
                 </c:otherwise>
             </c:choose>
             <tr>
@@ -64,6 +68,12 @@
         var isAgeValid = false;
         var isGenderValid = false;
         var isPhoneNumberValid = false;
+
+        function confirmDeletion() {
+            if(!confirm('Подтвердите удаление пользователя')){
+                event.preventDefault();
+            }
+        }
 
         function validSurname(){
             var surname = document.getElementById("surname").value;
@@ -128,7 +138,7 @@
             var phoneNumber = document.getElementById("phone_number").value;
             var regex = new RegExp("^\\+\\d{2}\\(\\d{3}\\)\\d{3}-\\d{2}-\\d{2}$");
             if (regex.test(phoneNumber)){
-                message = "Ок";
+                message = "Формат введен верно";
                 isPhoneNumberValid = true;
             }
             else {

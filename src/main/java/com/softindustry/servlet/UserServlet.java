@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Created by skyrvr on 27.01.17.
  */
-@WebServlet(name = "UserServlet") //TODO servlets 3.0 implementation must be done
+@WebServlet(name = "UserServlet", urlPatterns = {"/"})
 public class UserServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -32,56 +32,22 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String forward;
         String action = request.getParameter("action");
         if(action==null){
-            forward = LIST_USER;
-            request.setAttribute("users", userService.getAllUsers());
+            action="show_all";
         }
-        else{
-            switch (action){
-                case "create":
-                    forward = ADD_OR_UPDATE;
-                    break;
-                case "update":
-                    forward = ADD_OR_UPDATE;
-                    int userId = Integer.parseInt(request.getParameter("userId"));
-                    request.setAttribute("user",userService.getUserById(userId));
-                    break;
-                case "delete":
-                    userId = Integer.parseInt(request.getParameter("userId"));
-                    userService.deleteUser(userId);
-                    forward = LIST_USER;
-                    request.setAttribute("users", userService.getAllUsers());
-                    break;
-                case "search":
-                    forward = SEARCH;
-                    break;
-                case "get_results":
-                    forward = SEARCH;
-                    request.setAttribute("users", userService.getSearchResults(request));
-                    break;
-                default: forward = LIST_USER;
-                    request.setAttribute("users", userService.getAllUsers());
-            }
-        }
-        RequestDispatcher view = request.getRequestDispatcher(forward);
+
+        RequestDispatcher view = getView(request,action);
         view.forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher view;
         request.setCharacterEncoding("UTF-8");
         String dataEntryErrors=userService.getDataEntryErrors(request);
+        User user = getUserFromParams(request);
         String userId = request.getParameter("userId");
         if(dataEntryErrors.isEmpty()){
-            User user = new User();
-            user.setName(request.getParameter("name"));
-            user.setSurname(request.getParameter("surname"));
-            user.setAge(Integer.parseInt(request.getParameter("age")));
-            user.setGender(request.getParameter("gender").charAt(0));
-            user.setPhoneNumber(request.getParameter("phone_number"));
             if(userId == null || userId.isEmpty()){
                 userService.addUser(user);
             }
@@ -89,16 +55,58 @@ public class UserServlet extends HttpServlet {
                 user.setId(Integer.parseInt(userId));
                 userService.updateUser(user);
             }
-            request.setAttribute("users", userService.getAllUsers());
-            view = request.getRequestDispatcher(LIST_USER);
+            response.sendRedirect("users");
         }
         else{
-            if(userId!=null && !userId.isEmpty()){
-                request.setAttribute("user",userService.getUserById(Integer.parseInt(userId)));
-            }
+            request.setAttribute("user",user);
             request.setAttribute("errors",dataEntryErrors);
-            view = request.getRequestDispatcher(ADD_OR_UPDATE);
+            RequestDispatcher view = request.getRequestDispatcher(ADD_OR_UPDATE);
+            view.forward(request, response);
         }
-        view.forward(request, response);
+    }
+
+    private RequestDispatcher getView(HttpServletRequest request, String action){
+        String forward;
+        switch (action){
+            case "create":
+                forward = ADD_OR_UPDATE;
+                break;
+            case "update":
+                int userId = Integer.parseInt(request.getParameter("userId"));
+                request.setAttribute("user",userService.getUserById(userId));
+                forward = ADD_OR_UPDATE;
+                break;
+            case "delete":
+                userId = Integer.parseInt(request.getParameter("userId"));
+                userService.deleteUser(userId);
+                request.setAttribute("users", userService.getAllUsers());
+                forward = LIST_USER;
+                break;
+            case "search":
+                forward = SEARCH;
+                break;
+            case "get_results":
+                request.setAttribute("users", userService.getSearchResults(request));
+                forward = SEARCH;
+                break;
+            case "show_all":
+                request.setAttribute("users", userService.getAllUsers());
+                forward = LIST_USER;
+                break;
+            default:
+                request.setAttribute("users", userService.getAllUsers());
+                forward = LIST_USER;
+        }
+        return request.getRequestDispatcher(forward);
+    }
+
+    private User getUserFromParams(HttpServletRequest request){
+        User user = new User();
+        user.setName(request.getParameter("name"));
+        user.setSurname(request.getParameter("surname"));
+        user.setAge(Integer.parseInt(request.getParameter("age")));
+        user.setGender(request.getParameter("gender").charAt(0));
+        user.setPhoneNumber(request.getParameter("phone_number"));
+        return user;
     }
 }

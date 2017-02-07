@@ -15,10 +15,23 @@ public class DBUtil {
 
     private static final String PROPERTY_FILE_PATH = "db.properties";
 
-    private static BasicDataSource dataSource; //TODO why apache? remake to plain JDBC?
+    private static DBUtil instance = null;
 
-    public DBUtil() {
+    private static BasicDataSource dataSource;
+
+    private DBUtil() {
         initDataSource();
+    }
+
+    public static DBUtil getInstance() {
+        if (instance == null) {
+            synchronized (DBUtil.class) {
+                if (instance == null) {
+                    instance = new DBUtil();
+                }
+            }
+        }
+        return instance;
     }
 
     private void initDataSource() {

@@ -17,20 +17,6 @@ import static com.softindustry.util.DBUtil.getConnection;
  */
 public class UserDAO {
 
-    private static final String CREATE_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS `notebook`.`users` (" +
-            "  `id` INT NOT NULL AUTO_INCREMENT," +
-            "  `surname` VARCHAR(45) NULL," +
-            "  `name` VARCHAR(45) NULL," +
-            "  `age` INT NULL," +
-            "  `gender` VARCHAR(1) NULL," +
-            "  `phone_number` VARCHAR(20) NULL," +
-            "  PRIMARY KEY (`id`));";
-    private static final String FILL_TABLE_QUERY = "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `gender`, `phone_number`) VALUES ('Кравцов', 'Иван', '25', 'м', '123456');" +
-            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, ``, `phone_number`) VALUES ('Авдеев', 'Николай', '23', 'м', '12345');" +
-            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `gender`, `phone_number`) VALUES ('Лавкрафт', 'Говард', '64', 'м', '123456');" +
-            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `gender`, `phone_number`) VALUES ('Ахматова', 'Анна', '35', 'ж', '1234');" +
-            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `gender`, `phone_number`) VALUES ('Заюшкина', 'Даниэлла', '31', 'ж', '123456');";
-
     private static final String ADD_USER_QUERY = "INSERT INTO notebook.users (" +
             "surname, name, age, gender, phone_number) VALUES (?, ?, ?, ?, ?);";
     private static final String GET_USER_QUERY = "SELECT surname, name, age, gender, phone_number" +
@@ -39,13 +25,25 @@ public class UserDAO {
             " SET surname=?, name=?, age=?, gender=?, phone_number=? WHERE id=?;";
     private static final String DELETE_USER_QUERY = "DELETE FROM notebook.users WHERE id=?;";
     private static final String GET_ALL_QUERY = "SELECT * FROM notebook.users;";
+    private static final String GET_USER_BY_PHONE = "SELECT id FROM notebook.users WHERE phone_number = ?;";
 
-    DBUtil dbUtil;
+    private DBUtil dbUtil;
+    private static UserDAO instance = null;
 
-    public UserDAO() {
-        dbUtil = new DBUtil(); //TODO make singletone getInstance()
+    private UserDAO() {
+        dbUtil = DBUtil.getInstance();
     }
 
+    public static UserDAO getInstance(){
+        if (instance == null) {
+            synchronized (UserDAO.class) {
+                if (instance == null) {
+                    instance = new UserDAO();
+                }
+            }
+        }
+        return instance;
+    }
 
     public void addUser(User user) {
         try (Connection conn = getConnection()) {
@@ -145,6 +143,20 @@ public class UserDAO {
                 return getUsersList(rs);
             } catch (SQLException e) {
                 throw new RuntimeException("Fail to search users", e);
+            }
+        } catch (SQLException e1) {
+            throw new RuntimeException("A problem with connection", e1);
+        }
+    }
+
+    public boolean numberExists(String number){
+        try (Connection conn = getConnection()) {
+            try (PreparedStatement st = conn.prepareStatement(GET_USER_BY_PHONE)) {
+                st.setString(1,number);
+                ResultSet rs = st.executeQuery();
+                return rs.next();
+            } catch (SQLException e) {
+                throw new RuntimeException("Fail to search users by phone number", e);
             }
         } catch (SQLException e1) {
             throw new RuntimeException("A problem with connection", e1);
