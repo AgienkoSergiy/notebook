@@ -12,9 +12,7 @@ import java.util.List;
 
 import static com.softindustry.util.DBUtil.getConnection;
 
-/**
- * Created by konstr6 on 27.01.2017.
- */
+
 public class UserDAO {
 
     private static final String ADD_USER_QUERY = "INSERT INTO notebook.users (" +

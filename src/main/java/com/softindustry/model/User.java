@@ -1,9 +1,6 @@
 package com.softindustry.model;
 
 
-/**
- * Created by konstr6 on 27.01.2017.
- */
 public class User {
 
     private int id;

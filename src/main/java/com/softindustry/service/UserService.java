@@ -10,9 +10,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by skyrvr on 28.01.17.
- */
+
 public class UserService {
 
     private UserDAO userDAO;

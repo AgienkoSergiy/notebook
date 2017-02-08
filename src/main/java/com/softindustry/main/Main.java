@@ -8,9 +8,6 @@ import java.io.File;
 import java.nio.file.Path;
 
 
-/**
- * Created by skyrvr on 05.02.17.
- */
 public class Main {
     public static void main(String[] args) throws Exception {
 

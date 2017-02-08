@@ -8,9 +8,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
-/**
- * Created by -- on 27.01.17.
- */
+
 public class DBUtil {
 
     private static final String PROPERTY_FILE_PATH = "db.properties";
