@@ -46,7 +46,7 @@ public class UserServlet extends HttpServlet {
         User user = getUserFromParams(request);
         String userId = request.getParameter("userId");
         if(dataEntryErrors.isEmpty()){
-            if(userId == null || userId.isEmpty()){
+            if(userId == null || userId.isEmpty() || userId.equals("0")){
                 userService.addUser(user);
             }
             else{
