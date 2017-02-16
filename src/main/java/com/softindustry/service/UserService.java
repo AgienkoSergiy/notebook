@@ -87,7 +87,7 @@ public class UserService {
         if(age==null || age.isEmpty()|| !matchesRegex(age,"^([4-9]|[1-8][0-9]|9[0-9]|1[0-4][0-9]|150)$")){
             errors+="Ошибка! Ведите возраст от 4 до 150 (только цифры)<br/>";
         }
-        if(gender==null || !matchesRegex(gender,"^[м,ж]$")){
+        if(gender==null || !matchesRegex(gender,"^[m,f]$")){
             errors+="Ошибка! Пол не введен<br/>";
         }
         if(phoneNumber==null || phoneNumber.isEmpty()||

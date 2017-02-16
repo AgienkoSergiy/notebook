@@ -43,8 +43,8 @@
                 <td>
                     <select id="gender" name="gender" onchange="validGender()">
                         <option disabled selected>Выберите пол:</option>
-                        <option value="м" ${user.gender!=0 && user.gender == 236 ? 'selected="selected"' : ''}>Мужчина</option>
-                        <option value="ж" ${user.gender!=0 && user.gender == 230 ? 'selected="selected"' : ''}>Женщина</option>
+                        <option value="m" ${user.gender!=0 && user.gender == 109 ? 'selected="selected"' : ''}>Мужчина</option>
+                        <option value="f" ${user.gender!=0 && user.gender == 102 ? 'selected="selected"' : ''}>Женщина</option>
                     </select>
                 </td>
                 <td id="gender_valid"></td>
@@ -122,7 +122,7 @@
         function validGender(){
             var message;
             var gender = document.getElementById("gender").value;
-            if(gender==="м"|| gender==="ж"){
+            if(gender==="m"|| gender==="f"){
                 message = "Ок";
                 isGenderValid = true;
             }
