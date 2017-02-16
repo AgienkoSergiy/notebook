@@ -24,12 +24,12 @@
                 </c:otherwise>
             </c:choose>
             <tr>
-                <td align="right"><label for="surname">Фамилия (только кириллица):</label></td>
+                <td align="right"><label for="surname">Фамилия:</label></td>
                 <td><input id="surname" type="text" name="surname" size="20" value="${user.surname}" onchange="validSurname()"/></td>
                 <td id="surname_valid"></td>
             </tr>
             <tr>
-                <td align="right"><label for="name">Имя (только кириллица):</label></td>
+                <td align="right"><label for="name">Имя:</label></td>
                 <td><input id="name" type="text" name="name" size="20" value="${user.name}" onchange="validName()" /></td>
                 <td id="name_valid"></td>
             </tr>
@@ -43,8 +43,8 @@
                 <td>
                     <select id="gender" name="gender" onchange="validGender()">
                         <option disabled selected>Выберите пол:</option>
-                        <option value="м">Мужчина</option>
-                        <option value="ж">Женщина</option>
+                        <option value="м" ${user.gender!=0 && user.gender == 236 ? 'selected="selected"' : ''}>Мужчина</option>
+                        <option value="ж" ${user.gender!=0 && user.gender == 230 ? 'selected="selected"' : ''}>Женщина</option>
                     </select>
                 </td>
                 <td id="gender_valid"></td>
