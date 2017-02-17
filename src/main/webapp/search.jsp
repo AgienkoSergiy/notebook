@@ -32,15 +32,19 @@
                 <td align="right"><label for="gender">Пол:</label></td>
                 <td>
                     <select id="gender" name="gender">
-                        <option disabled selected>Выберите пол:</option>
-                        <option value="м">Мужчина</option>
-                        <option value="ж">Женщина</option>
+                        <option selected value="" >Выберите пол:</option>
+                        <option value="m" ${param.gender == 'm' ? 'selected="selected"' : ''}>
+                            Мужчина
+                        </option>
+                        <option value="f" ${param.gender == 'f' ? 'selected="selected"' : ''}>
+                            Женщина
+                        </option>
                     </select>
                 </td>
                 <td id="gender_valid"></td>
             </tr>
             <tr>
-                <td align="right"><label for="phone_number">Номер телефона в формате +хх(ххх)ххх-хх-хх:</label></td>
+                <td align="right"><label for="phone_number">Номер телефона в формате +380123456789:</label></td>
                 <td><input id="phone_number" type="text" name="phone_number" size="20" value="${param.phone_number}"/></td>
                 <td id="phone_valid"></td>
             </tr>

@@ -78,11 +78,11 @@ public class UserService {
         String gender = request.getParameter("gender");
         String phoneNumber = request.getParameter("phone_number");
 
-        if(surname==null || surname.isEmpty()|| !matchesRegex(surname,"^[а-яА-Я]{2,20}$")){
-            errors+="Ошибка! Фамилия должна состоять из 2-20 букв кириллицы<br/>";
+        if(surname==null || surname.isEmpty()|| !matchesRegex(surname,"^[а-яА-Я|a-zA-Z]{2,20}$")){
+            errors+="Ошибка! Фамилия должна состоять из 2-20 букв<br/>";
         }
-        if(name==null || name.isEmpty()|| !matchesRegex(name,"^[а-яА-Я]{2,20}$")){
-            errors+="Ошибка! Имя должно состоять из 2-20 букв кириллицы<br/>";
+        if(name==null || name.isEmpty()|| !matchesRegex(name,"^[а-яА-Я|a-zA-Z]{2,20}$")){
+            errors+="Ошибка! Имя должно состоять из 2-20 букв<br/>";
         }
         if(age==null || age.isEmpty()|| !matchesRegex(age,"^([4-9]|[1-8][0-9]|9[0-9]|1[0-4][0-9]|150)$")){
             errors+="Ошибка! Ведите возраст от 4 до 150 (только цифры)<br/>";
@@ -91,7 +91,7 @@ public class UserService {
             errors+="Ошибка! Пол не введен<br/>";
         }
         if(phoneNumber==null || phoneNumber.isEmpty()||
-                !matchesRegex(phoneNumber,"^\\+\\d{2}\\(\\d{3}\\)\\d{3}-\\d{2}-\\d{2}$")){
+                !matchesRegex(phoneNumber,"^\\+\\d{12}$")){
             errors+="Ошибка! Неверно введен телефон<br/>";
         }
         if((userId==null || userId.isEmpty()) && numberExists(phoneNumber)){

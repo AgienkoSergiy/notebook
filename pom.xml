@@ -108,6 +108,21 @@
                         </configuration>
                     </execution>
 
+                    <!--Fill table with test data-->
+                    <execution>
+                        <id>fill-table</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <autocommit>true</autocommit>
+                            <srcFiles>
+                                <srcFile>src/main/sql/fill_table.sql</srcFile>
+                            </srcFiles>
+                        </configuration>
+                    </execution>
+
                 </executions>
             </plugin>
         </plugins>

@@ -43,14 +43,18 @@
                 <td>
                     <select id="gender" name="gender" onchange="validGender()">
                         <option disabled selected>Выберите пол:</option>
-                        <option value="m" ${user.gender!=0 && user.gender == 109 ? 'selected="selected"' : ''}>Мужчина</option>
-                        <option value="f" ${user.gender!=0 && user.gender == 102 ? 'selected="selected"' : ''}>Женщина</option>
+                        <option value="m" ${user.gender == 109 ? 'selected="selected"' : ''}>
+                            Мужчина
+                        </option>
+                        <option value="f" ${user.gender == 102 ? 'selected="selected"' : ''}>
+                            Женщина
+                        </option>
                     </select>
                 </td>
                 <td id="gender_valid"></td>
             </tr>
             <tr>
-                <td align="right"><label for="phone_number">Номер телефона в формате +хх(ххх)ххх-хх-хх:</label></td>
+                <td align="right"><label for="phone_number">Номер телефона в формате +380123456789:</label></td>
                 <td><input id="phone_number" type="text" name="phone_number" size="20" value="${user.phoneNumber}" onchange="validPhoneNumber()"/></td>
                 <td id="phone_valid"></td>
             </tr>
@@ -77,14 +81,14 @@
 
         function validSurname(){
             var surname = document.getElementById("surname").value;
-            var regex = new RegExp("^[а-яА-Я]{2,20}$");
+            var regex = new RegExp("^[а-яА-Я|a-zA-Z]{2,20}$");
             var message;
             if(regex.test(surname)){
                 message = "Ок";
                 isSurnameValid = true;
             }
             else {
-                message = "Ошибка! Поле принимает 2-20 букв кириллицы";
+                message = "Ошибка! Поле принимает 2-20 букв";
                 isSurnameValid = false;
             }
             document.getElementById("surname_valid").innerHTML = message;
@@ -93,13 +97,13 @@
         function validName(){
             var message;
             var name = document.getElementById("name").value;
-            var regex = new RegExp("^[а-яА-Я]{2,20}$");
+            var regex = new RegExp("^[а-яА-Я|a-zA-Z]{2,20}$");
             if(regex.test(name)){
                 message = "Ок";
                 isNameValid = true;
             }
             else {
-                message = "Ошибка! Поле принимает 2-20 букв кириллицы";
+                message = "Ошибка! Поле принимает 2-20 букв";
                 isNameValid = false;
             }
             document.getElementById("name_valid").innerHTML = message;
@@ -136,13 +140,13 @@
         function validPhoneNumber(){
             var message;
             var phoneNumber = document.getElementById("phone_number").value;
-            var regex = new RegExp("^\\+\\d{2}\\(\\d{3}\\)\\d{3}-\\d{2}-\\d{2}$");
+            var regex = new RegExp("^\\+\\d{12}$");
             if (regex.test(phoneNumber)){
                 message = "Формат введен верно";
                 isPhoneNumberValid = true;
             }
             else {
-                message = "Ошибка! Неверный формат ввода, правильный пример: +38(012)123-45-67";
+                message = "Ошибка! Неверный формат ввода, правильный пример: +380123456789";
                 isPhoneNumberValid = false;
             }
             document.getElementById("phone_valid").innerHTML = message;
