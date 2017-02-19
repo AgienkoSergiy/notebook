@@ -79,23 +79,23 @@ public class UserService {
         String phoneNumber = request.getParameter("phone_number");
 
         if(surname==null || surname.isEmpty()|| !matchesRegex(surname,"^[а-яА-Я|a-zA-Z]{2,20}$")){
-            errors+="Ошибка! Фамилия должна состоять из 2-20 букв<br/>";
+            errors+="Surname field must be filled with 2-20 letters<br/>";
         }
         if(name==null || name.isEmpty()|| !matchesRegex(name,"^[а-яА-Я|a-zA-Z]{2,20}$")){
-            errors+="Ошибка! Имя должно состоять из 2-20 букв<br/>";
+            errors+="Name field must be filled with 2-20 letter<br/>";
         }
         if(age==null || age.isEmpty()|| !matchesRegex(age,"^([4-9]|[1-8][0-9]|9[0-9]|1[0-4][0-9]|150)$")){
-            errors+="Ошибка! Ведите возраст от 4 до 150 (только цифры)<br/>";
+            errors+="Age must be in 4-150 range<br/>";
         }
         if(gender==null || !matchesRegex(gender,"^[m,f]$")){
-            errors+="Ошибка! Пол не введен<br/>";
+            errors+="Gender is not set<br/>";
         }
         if(phoneNumber==null || phoneNumber.isEmpty()||
                 !matchesRegex(phoneNumber,"^\\+\\d{12}$")){
-            errors+="Ошибка! Неверно введен телефон<br/>";
+            errors+="Wrong number format<br/>";
         }
         if((userId==null || userId.isEmpty()) && numberExists(phoneNumber)){
-            errors+="Ошибка! Пользователь с таким номером телефона уже существует<br/>";
+            errors+="Phone number is already stored in notebook<br/>";
         }
         return errors;
     }

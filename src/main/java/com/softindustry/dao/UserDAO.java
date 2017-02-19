@@ -25,11 +25,10 @@ public class UserDAO {
     private static final String GET_ALL_QUERY = "SELECT * FROM notebook.users;";
     private static final String GET_USER_BY_PHONE = "SELECT id FROM notebook.users WHERE phone_number = ?;";
 
-    private DBUtil dbUtil;
     private static UserDAO instance = null;
 
     private UserDAO() {
-        dbUtil = DBUtil.getInstance();
+        DBUtil.getInstance();
     }
 
     public static UserDAO getInstance(){
