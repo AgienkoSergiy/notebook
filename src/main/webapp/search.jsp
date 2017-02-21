@@ -1,50 +1,50 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Поиск</title>
+    <title>Search</title>
 </head>
 <body>
 
-    <h1>Записная книжка</h1>
-    <p><a href="${pageContext.request.contextPath}/user?action=create">Добавить пользователя</a></p>
-    <p> <a href="${pageContext.request.contextPath}/users">Список всех пользователей</a></p>
+    <h1>Notebook</h1>
+    <p><a href="${pageContext.request.contextPath}/user?action=create">Add user</a></p>
+    <p> <a href="${pageContext.request.contextPath}/users">Users list</a></p>
 
 
     <form name="search_form" action="search" method="get">
         <table>
-            <caption>Введите критерии поиска</caption>
+            <caption>Enter search criteria</caption>
             <tr>
-                <td align="right"><label for="surname">Фамилия (только кириллица):</label></td>
+                <td align="right"><label for="surname">Surname:</label></td>
                 <td><input id="surname" type="text" name="surname" size="20"  value="${param.surname}"/></td>
                 <td id="surname_valid"></td>
             </tr>
             <tr>
-                <td align="right"><label for="name">Имя (только кириллица):</label></td>
+                <td align="right"><label for="name">Name:</label></td>
                 <td><input id="name" type="text" name="name" size="20" value="${param.name}" /></td>
                 <td id="name_valid"></td>
             </tr>
             <tr>
-                <td align="right"><label for="age">Возраст:</label></td>
+                <td align="right"><label for="age">Age:</label></td>
                 <td><input id="age" type="text" name="age" size="20" value="${param.age}"/></td>
                 <td id="age_valid"></td>
             </tr>
             <tr>
-                <td align="right"><label for="gender">Пол:</label></td>
+                <td align="right"><label for="gender">Gender:</label></td>
                 <td>
                     <select id="gender" name="gender">
-                        <option selected value="" >Выберите пол:</option>
+                        <option selected value="" >Select gender:</option>
                         <option value="m" ${param.gender == 'm' ? 'selected="selected"' : ''}>
-                            Мужчина
+                            Male
                         </option>
                         <option value="f" ${param.gender == 'f' ? 'selected="selected"' : ''}>
-                            Женщина
+                            Female
                         </option>
                     </select>
                 </td>
                 <td id="gender_valid"></td>
             </tr>
             <tr>
-                <td align="right"><label for="phone_number">Номер телефона в формате +380123456789:</label></td>
+                <td align="right"><label for="phone_number">Phone number +380123456789:</label></td>
                 <td><input id="phone_number" type="text" name="phone_number" size="20" value="${param.phone_number}"/></td>
                 <td id="phone_valid"></td>
             </tr>
@@ -57,11 +57,11 @@
 
     <c:choose>
         <c:when test="${empty users}">
-            <p>Поиск пока не дал результатов</p>
+            <p>No search results yet</p>
         </c:when>
         <c:otherwise>
             <table border="1" cellspacing="0" cellpadding="3">
-                <caption>Результаты поиска:</caption>
+                <caption>Search result:</caption>
                 <c:forEach items="${users}" var="user">
                     <tr>
                         <td>${user.surname}  </td>

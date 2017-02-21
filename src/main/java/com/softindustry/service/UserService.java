@@ -94,8 +94,10 @@ public class UserService {
                 !matchesRegex(phoneNumber,"^\\+\\d{12}$")){
             errors+="Wrong number format<br/>";
         }
-        if((userId==null || userId.isEmpty()) && numberExists(phoneNumber)){
-            errors+="Phone number is already stored in notebook<br/>";
+        String fullNameByPhone = userDAO.getFullNameByPhone(phoneNumber);
+        System.out.println(userId);
+        if((userId==null || userId.isEmpty() || userId=="0")&&fullNameByPhone!=null){
+            errors+="Phone number is already stored in notebook as " + fullNameByPhone + "<br/>";
         }
         return errors;
     }
@@ -104,9 +106,5 @@ public class UserService {
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(string);
         return m.matches();
-    }
-
-    private boolean numberExists(String number){
-        return userDAO.numberExists(number);
     }
 }

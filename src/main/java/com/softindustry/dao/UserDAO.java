@@ -23,7 +23,7 @@ public class UserDAO {
             " SET surname=?, name=?, age=?, gender=?, phone_number=? WHERE id=?;";
     private static final String DELETE_USER_QUERY = "DELETE FROM notebook.users WHERE id=?;";
     private static final String GET_ALL_QUERY = "SELECT * FROM notebook.users;";
-    private static final String GET_USER_BY_PHONE = "SELECT id FROM notebook.users WHERE phone_number = ?;";
+    private static final String GET_FULL_NAME_BY_PHONE = "SELECT name, surname FROM notebook.users WHERE phone_number = ?;";
 
     private static UserDAO instance = null;
 
@@ -146,12 +146,15 @@ public class UserDAO {
         }
     }
 
-    public boolean numberExists(String number){
+    public String getFullNameByPhone(String number){
         try (Connection conn = getConnection()) {
-            try (PreparedStatement st = conn.prepareStatement(GET_USER_BY_PHONE)) {
+            try (PreparedStatement st = conn.prepareStatement(GET_FULL_NAME_BY_PHONE)) {
                 st.setString(1,number);
                 ResultSet rs = st.executeQuery();
-                return rs.next();
+                if(!rs.next()){
+                    return null;
+                }
+                return rs.getString("name") + " " + rs.getString("surname");
             } catch (SQLException e) {
                 throw new RuntimeException("Fail to search users by phone number", e);
             }
