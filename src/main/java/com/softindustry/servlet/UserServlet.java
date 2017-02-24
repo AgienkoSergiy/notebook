@@ -104,8 +104,14 @@ public class UserServlet extends HttpServlet {
         User user = new User();
         user.setName(request.getParameter("name"));
         user.setSurname(request.getParameter("surname"));
-        user.setAge(Integer.parseInt(request.getParameter("age")));
-        user.setGender(request.getParameter("gender").charAt(0));
+        String age = request.getParameter("age");
+        if(!age.isEmpty()){
+            user.setAge(Integer.parseInt(age));
+        }
+        String gender = request.getParameter("gender");
+        if(!gender.isEmpty()){
+            user.setGender(gender.charAt(0));
+        }
         user.setPhoneNumber(request.getParameter("phone_number"));
         return user;
     }

@@ -78,24 +78,24 @@ public class UserService {
         String gender = request.getParameter("gender");
         String phoneNumber = request.getParameter("phone_number");
 
-        if(surname.isEmpty()|| !matchesRegex(surname,"^[а-яА-Я|a-zA-Z]{2,20}$")){
+        if(surname==null&& surname.isEmpty()|| !matchesRegex(surname,"^[а-яА-Я|a-zA-Z]{2,20}$")){
             errors+="Surname field must be filled with 2-20 letters<br/>";
         }
-        if(name.isEmpty()|| !matchesRegex(name,"^[а-яА-Я|a-zA-Z]{2,20}$")){
+        if(name==null && name.isEmpty()|| !matchesRegex(name,"^[а-яА-Я|a-zA-Z]{2,20}$")){
             errors+="Name field must be filled with 2-20 letter<br/>";
         }
-        if(age.isEmpty()|| !matchesRegex(age,"^([4-9]|[1-8][0-9]|9[0-9]|1[0-4][0-9]|150)$")){
+        if(age==null || age.isEmpty()|| !matchesRegex(age,"^([4-9]|[1-8][0-9]|9[0-9]|1[0-4][0-9]|150)$")){
             errors+="Age must be in 4-150 range<br/>";
         }
-        if(!matchesRegex(gender,"^[m,f]$")){
+        if(gender==null || !matchesRegex(gender,"^[m,f]$")){
             errors+="Gender is not set<br/>";
         }
-        if(phoneNumber.isEmpty()||
+        if(phoneNumber==null || phoneNumber.isEmpty()||
                 !matchesRegex(phoneNumber,"^\\+\\d{12}$")){
             errors+="Wrong number format<br/>";
         }
         String fullNameByPhone = userDAO.getFullNameByPhone(phoneNumber);
-        if((userId.isEmpty() || userId.equals("0"))&&fullNameByPhone!=null){
+        if((userId==null || userId.isEmpty() || userId.equals("0"))&&fullNameByPhone!=null){
             errors+="Phone number is already stored in notebook as " + fullNameByPhone + "<br/>";
         }
         return errors;
