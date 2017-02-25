@@ -109,7 +109,7 @@ public class UserServlet extends HttpServlet {
             user.setAge(Integer.parseInt(age));
         }
         String gender = request.getParameter("gender");
-        if(!gender.isEmpty()){
+        if(gender!=null && !gender.isEmpty()){
             user.setGender(gender.charAt(0));
         }
         user.setPhoneNumber(request.getParameter("phone_number"));
