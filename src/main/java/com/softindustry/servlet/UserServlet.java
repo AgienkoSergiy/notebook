@@ -12,14 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet(name = "UserServlet", urlPatterns = {"/"})
+@WebServlet(name = "UserServlet", urlPatterns = {"/user", "/search"})
 public class UserServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    private static String ADD_OR_UPDATE = "/user.jsp";
-    private static String LIST_USER = "/usersList.jsp";
-    private static String SEARCH = "/search.jsp";
+    private static String ADD_OR_UPDATE = "/views/user.jsp";
+    private static String LIST_USER = "/views/usersList.jsp";
+    private static String SEARCH = "/views/search.jsp";
 
     private UserService userService;
 
