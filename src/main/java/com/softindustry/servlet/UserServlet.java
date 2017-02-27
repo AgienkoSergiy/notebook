@@ -55,7 +55,7 @@ public class UserServlet extends HttpServlet {
                 user.setId(Integer.parseInt(userId));
                 userService.updateUser(user);
             }
-            response.sendRedirect("users");
+            response.sendRedirect("user?action=show_all");
         }
         else{
             request.setAttribute("user",user);
@@ -91,6 +91,10 @@ public class UserServlet extends HttpServlet {
                 break;
             case "show_all":
                 request.setAttribute("users", userService.getAllUsers());
+                forward = LIST_USER;
+                break;
+            case "show_filtered":
+                request.setAttribute("users", userService.getUsersByFilter(request.getParameter("filter")));
                 forward = LIST_USER;
                 break;
             default:

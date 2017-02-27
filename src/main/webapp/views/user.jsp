@@ -114,7 +114,7 @@
                         <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
                         OK
                     </button></td>
-                    <td><input type="hidden" name="userId" value="${user.id}" /></td>
+                    <td><input type="hidden" name="userId" value="${user.id}"/></td>
                 </tr>
                 </table>
             </form>
@@ -123,5 +123,7 @@
     </div>
 
     <script id="validation" src="${root}/resources/js/validation.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="${root}/resources/js/bootstrap.min.js"></script>
 </body>
 </html>

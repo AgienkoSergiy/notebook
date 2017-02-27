@@ -40,6 +40,8 @@ public class UserService {
         return userDAO.getAllUsers();
     }
 
+    public List<User> getUsersByFilter(String parameter){return userDAO.getUsersByFilter(parameter);}
+
     public List<User> getSearchResults(HttpServletRequest request){
         Map<String,String> searchParameters = new HashMap<>();
         for(String parameterKey:request.getParameterMap().keySet()){

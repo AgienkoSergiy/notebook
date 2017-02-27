@@ -15,6 +15,35 @@ import static com.softindustry.util.DBUtil.getConnection;
 
 public class UserDAO {
 
+    //tomcat debug section
+/*
+
+    private static final String TEMP_START_QUERY_3 = "CREATE SCHEMA IF NOT EXISTS `notebook`;";
+
+    private static final String TEMP_START_QUERY_1 = "CREATE TABLE IF NOT EXISTS `notebook`.`users` (" +
+            "  `id` INT NOT NULL AUTO_INCREMENT," +
+            "  `surname` VARCHAR(45) NULL," +
+            "  `name` VARCHAR(45) NULL," +
+            "  `age` INT NULL," +
+            "  `gender` VARCHAR(1) NULL," +
+            "  `phone_number` VARCHAR(20) NULL," +
+            "  PRIMARY KEY (`id`));";
+
+    private static final String TEMP_START_QUERY_2 = "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `gender`, `phone_number`) VALUES ('King', 'Stephen', '69', 'm', '+380934440591');" +
+            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `gender`, `phone_number`) VALUES ('Lovecraft', 'Howard', '46', 'm', '+380734320141');" +
+            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `gender`, `phone_number`) VALUES ('Hemingway', 'Ernest', '61', 'm', '+380735230593');" +
+            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `gender`, `phone_number`) VALUES ('Einstein', 'Albert', '76', 'm', '+380933691593');" +
+            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `gender`, `phone_number`) VALUES ('Tesla', 'Nikola', '86', 'm', '+380731550712');" +
+            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `gender`, `phone_number`) VALUES ('Orlova', 'Alina', '32', 'f', '+380639511425');" +
+            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `gender`, `phone_number`) VALUES ('Winehouse', 'Amy', '27', 'f', '+380665550744');" +
+            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `gender`, `phone_number`) VALUES ('Yorke', 'Thomas', '48', 'm', '+380664547891');" +
+            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `gender`, `phone_number`) VALUES ('Mercury', 'Freddie', '45', 'm', '+380736570793');" +
+            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `gender`, `phone_number`) VALUES ('Palmer', 'Amanda', '32', 'f', '+380952214190');" +
+            "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `gender`, `phone_number`) VALUES ('Adkins', 'Adele', '25', 'f', '+380934177559');";
+*/
+
+    //end tomcat debug section
+
     private static final String ADD_USER_QUERY = "INSERT INTO notebook.users (" +
             "surname, name, age, gender, phone_number) VALUES (?, ?, ?, ?, ?);";
     private static final String GET_USER_QUERY = "SELECT surname, name, age, gender, phone_number" +
@@ -23,13 +52,50 @@ public class UserDAO {
             " SET surname=?, name=?, age=?, gender=?, phone_number=? WHERE id=?;";
     private static final String DELETE_USER_QUERY = "DELETE FROM notebook.users WHERE id=?;";
     private static final String GET_ALL_QUERY = "SELECT * FROM notebook.users;";
+    private static final String GET_USERS_BY_FILTER_QUERY = "SELECT DISTINCT * FROM notebook.users WHERE" +
+            " surname LIKE ? OR name LIKE ? OR phone_number LIKE ?;";
     private static final String GET_FULL_NAME_BY_PHONE = "SELECT name, surname FROM notebook.users WHERE phone_number = ?;";
 
     private static UserDAO instance = null;
 
     private UserDAO() {
         DBUtil.getInstance();
+        //init();
     }
+
+    //tomcat debug section
+/*
+    private void init(){
+        try (Connection conn = getConnection()) {
+            try (PreparedStatement st = conn.prepareStatement(TEMP_START_QUERY_3)) {
+                st.executeUpdate();
+                System.out.println("schema created");
+
+            } catch (SQLException e) {
+                conn.rollback();
+                throw new RuntimeException("Fail to create schema ", e);
+            }
+            try (PreparedStatement st = conn.prepareStatement(TEMP_START_QUERY_1)) {
+                st.executeUpdate();
+                System.out.println("table created");
+
+            } catch (SQLException e) {
+                conn.rollback();
+                throw new RuntimeException("Fail to create table ", e);
+            }
+            try (PreparedStatement st = conn.prepareStatement(TEMP_START_QUERY_2)) {
+                st.executeUpdate();
+                System.out.println("table filled");
+
+            } catch (SQLException e) {
+                conn.rollback();
+                throw new RuntimeException("Fail to fill table ", e);
+            }
+        } catch (SQLException e1) {
+            throw new RuntimeException("Connection problem occurred ", e1);
+        }
+    }*/
+    //end tomcat debug section
 
     public static UserDAO getInstance(){
         if (instance == null) {
@@ -140,6 +206,22 @@ public class UserDAO {
                 return getUsersList(rs);
             } catch (SQLException e) {
                 throw new RuntimeException("Fail to search users", e);
+            }
+        } catch (SQLException e1) {
+            throw new RuntimeException("A problem with connection", e1);
+        }
+    }
+
+    public List<User> getUsersByFilter(String parameter){
+        try (Connection conn = getConnection()) {
+            try (PreparedStatement st = conn.prepareStatement(GET_USERS_BY_FILTER_QUERY)) {
+                st.setString(1, "%" + parameter + "%");
+                st.setString(2, "%" + parameter + "%");
+                st.setString(3, "%" + parameter + "%");
+                ResultSet rs = st.executeQuery();
+                return getUsersList(rs);
+            } catch (SQLException e) {
+                throw new RuntimeException("Fail to get users by filter", e);
             }
         } catch (SQLException e1) {
             throw new RuntimeException("A problem with connection", e1);

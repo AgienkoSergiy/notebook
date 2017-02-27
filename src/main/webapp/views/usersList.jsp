@@ -27,7 +27,7 @@
 
 </head>
 <body>
-    <!-- Fixed navbar -->
+
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -54,46 +54,63 @@
         </div>
     </nav>
     <div class="container">
-    <c:choose>
-        <c:when test="${empty users}">
-            <p>Your notebook is empty</p>
-        </c:when>
-        <c:otherwise>
+        <c:choose>
+            <c:when test="${empty users}">
+                <p>Your notebook is empty</p>
+            </c:when>
+            <c:otherwise>
 
-        <div class="col-md-6">
-            <table class="table table-striped">
-                <h1 class="text-center">All users:</h1>
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Surname</th>
-                    <th>Name</th>
-                    <th>Age</th>
-                    <th>Gender</th>
-                    <th>Phone Number</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${users}" var="user" varStatus="loop">
-                <tr>
-                    <td>${loop.index+1}</td>
-                    <td>${user.surname}  </td>
-                    <td>${user.name}  </td>
-                    <td>${user.age}  </td>
-                    <td>${user.gender}  </td>
-                    <td>${user.phoneNumber}  </td>
-                    <td><a href="${root}/user?action=update&userId=${user.id}" class="btn btn-primary" role="button">
-                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                         Edit
-                        </a>
-                    </td>
-                </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </div>
+            <form name="search_form" method="get">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="hidden" name="action" value="show_filtered"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">
+                                <span class="glyphicon glyphicon-search"></span> Go!
+                            </button>
+                        </span>
+                        <input type="text" class="form-control" name="filter" placeholder="Search for...">
+                    </div>
+                </div>
+            </form>
+
+            <div class="col-md-6">
+                <table class="table table-striped">
+                    <h1 class="text-center">All users:</h1>
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Surname</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Phone Number</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${users}" var="user" varStatus="loop">
+                    <tr>
+                        <td>${loop.index+1}</td>
+                        <td>${user.surname}  </td>
+                        <td>${user.name}  </td>
+                        <td>${user.age}  </td>
+                        <td>${user.gender}  </td>
+                        <td>${user.phoneNumber}  </td>
+                        <td><a href="${root}/user?action=update&userId=${user.id}" class="btn btn-primary" role="button">
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                             Edit
+                            </a>
+                        </td>
+                    </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
     </div>
         </c:otherwise>
     </c:choose>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="${root}/resources/js/bootstrap.min.js"></script>
 </body>
 </html>
