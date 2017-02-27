@@ -16,3 +16,7 @@ body {
 .theme-showcase .navbar .container {
   width: auto;
 }
+
+.input-group .form-control {
+  max-width: 500px;
+}

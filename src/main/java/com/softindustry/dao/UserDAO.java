@@ -16,7 +16,7 @@ import static com.softindustry.util.DBUtil.getConnection;
 public class UserDAO {
 
     //tomcat debug section
-/*
+
 
     private static final String TEMP_START_QUERY_3 = "CREATE SCHEMA IF NOT EXISTS `notebook`;";
 
@@ -40,7 +40,7 @@ public class UserDAO {
             "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `gender`, `phone_number`) VALUES ('Mercury', 'Freddie', '45', 'm', '+380736570793');" +
             "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `gender`, `phone_number`) VALUES ('Palmer', 'Amanda', '32', 'f', '+380952214190');" +
             "INSERT INTO `notebook`.`users` (`surname`, `name`, `age`, `gender`, `phone_number`) VALUES ('Adkins', 'Adele', '25', 'f', '+380934177559');";
-*/
+
 
     //end tomcat debug section
 
@@ -54,22 +54,21 @@ public class UserDAO {
     private static final String GET_ALL_QUERY = "SELECT * FROM notebook.users;";
     private static final String GET_USERS_BY_FILTER_QUERY = "SELECT DISTINCT * FROM notebook.users WHERE" +
             " surname LIKE ? OR name LIKE ? OR phone_number LIKE ?;";
-    private static final String GET_FULL_NAME_BY_PHONE = "SELECT name, surname FROM notebook.users WHERE phone_number = ?;";
+    private static final String GET_USER_ID_BY_PHONE = "SELECT id FROM notebook.users WHERE phone_number = ?;";
 
     private static UserDAO instance = null;
 
     private UserDAO() {
         DBUtil.getInstance();
-        //init();
+        init();
     }
 
     //tomcat debug section
-/*
+
     private void init(){
         try (Connection conn = getConnection()) {
             try (PreparedStatement st = conn.prepareStatement(TEMP_START_QUERY_3)) {
                 st.executeUpdate();
-                System.out.println("schema created");
 
             } catch (SQLException e) {
                 conn.rollback();
@@ -77,7 +76,6 @@ public class UserDAO {
             }
             try (PreparedStatement st = conn.prepareStatement(TEMP_START_QUERY_1)) {
                 st.executeUpdate();
-                System.out.println("table created");
 
             } catch (SQLException e) {
                 conn.rollback();
@@ -85,7 +83,6 @@ public class UserDAO {
             }
             try (PreparedStatement st = conn.prepareStatement(TEMP_START_QUERY_2)) {
                 st.executeUpdate();
-                System.out.println("table filled");
 
             } catch (SQLException e) {
                 conn.rollback();
@@ -94,7 +91,7 @@ public class UserDAO {
         } catch (SQLException e1) {
             throw new RuntimeException("Connection problem occurred ", e1);
         }
-    }*/
+    }
     //end tomcat debug section
 
     public static UserDAO getInstance(){
@@ -228,15 +225,15 @@ public class UserDAO {
         }
     }
 
-    public String getFullNameByPhone(String number){
+    public User getUserByPhone(String number){
         try (Connection conn = getConnection()) {
-            try (PreparedStatement st = conn.prepareStatement(GET_FULL_NAME_BY_PHONE)) {
+            try (PreparedStatement st = conn.prepareStatement(GET_USER_ID_BY_PHONE)) {
                 st.setString(1,number);
                 ResultSet rs = st.executeQuery();
                 if(!rs.next()){
                     return null;
                 }
-                return rs.getString("name") + " " + rs.getString("surname");
+                return getUserById(Integer.parseInt(rs.getString("id")));
             } catch (SQLException e) {
                 throw new RuntimeException("Fail to search users by phone number", e);
             }
