@@ -5,3 +5,4 @@ call mvn package
 echo Starting app...
 call mvn exec:java
 
+

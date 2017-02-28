@@ -19,7 +19,7 @@ To run project `com.softindustry.main.Main`via embedded Jetty:
 
 Open your web browser to:
 
-    http://localhost:8080/  
+    http://localhost:8080/notebook  
 
 To stop Jetty:
 
