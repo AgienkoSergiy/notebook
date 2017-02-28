@@ -4,12 +4,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="../../favicon.ico">
-
-    <title>User</title>
 
     <c:set var="root" value="${pageContext.request.contextPath}" />
     <c:set var="isAddPage" value="${user==null || user.id==0}" />
+
+    <link rel="icon" href="${root}/resources/favicon.ico">
+
+    <title>User</title>
 
     <link href="${root}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${root}/resources/css/style.css" rel="stylesheet">
@@ -89,8 +90,12 @@
                         <td id="phone_valid"></td>
                     </tr>
 
-                    <tr>${errors}</tr>
-
+                    <tr>
+                        <td></td>
+                        <c:if test="${!empty errors}">
+                            <td><div class="alert alert-danger">${errors}</div></td>
+                        </c:if>
+                    </tr>
                     <tr>
                         <td>
                             <c:if test="${!isAddPage}">

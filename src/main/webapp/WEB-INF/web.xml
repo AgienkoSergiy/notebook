@@ -13,7 +13,7 @@
     </jsp-config>
 
     <welcome-file-list>
-        <welcome-file>/views/usersList.jsp</welcome-file>
+        <welcome-file>user</welcome-file>
     </welcome-file-list>
 
 </web-app>

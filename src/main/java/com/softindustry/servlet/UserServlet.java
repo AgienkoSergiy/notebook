@@ -45,7 +45,7 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String dataEntryErrors=userService.getDataEntryErrors(request);
-        User user = getUserFromParams(request);
+        User user = userService.getUserFromParams(request);
         String userId = request.getParameter("userId");
         if(dataEntryErrors.isEmpty()){
             if(userId == null || userId.isEmpty() || userId.equals("0")){
@@ -104,19 +104,4 @@ public class UserServlet extends HttpServlet {
         return request.getRequestDispatcher(forward);
     }
 
-    private User getUserFromParams(HttpServletRequest request){
-        User user = new User();
-        user.setName(request.getParameter("name"));
-        user.setSurname(request.getParameter("surname"));
-        String age = request.getParameter("age");
-        if(!age.isEmpty()){
-            user.setAge(Integer.parseInt(age));
-        }
-        String gender = request.getParameter("gender");
-        if(gender!=null && !gender.isEmpty()){
-            user.setGender(gender.charAt(0));
-        }
-        user.setPhoneNumber(request.getParameter("phone_number"));
-        return user;
-    }
 }

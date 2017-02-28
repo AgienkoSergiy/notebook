@@ -97,9 +97,11 @@ public class UserService {
             errors+="Wrong number format<br/>";
         }
         User userByPhone = userDAO.getUserByPhone(phoneNumber);
-        if(userByPhone!=null && userByPhone.getId() != Integer.parseInt(userId)){
-            if(userId==null || userId.isEmpty() || userId.equals("0")){
-                errors+="Phone number is already stored in notebook as " + userByPhone.getName() + userByPhone.getSurname() + "<br/>";
+        if(userByPhone!=null){
+            if( (userId==null || userId.isEmpty() || userId.equals("0"))||
+                    userByPhone.getId()!=Integer.parseInt(userId)) {
+                errors += "Phone number is already stored in notebook as " +
+                        userByPhone.getName() + " " + userByPhone.getSurname() + "<br/>";
             }
         }
         return errors;
@@ -109,5 +111,28 @@ public class UserService {
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(string);
         return m.matches();
+    }
+
+    public User getUserFromParams(HttpServletRequest request){
+        User user = new User();
+        String userId = request.getParameter("userId");
+        if(userId!=null&&!userId.isEmpty()){
+            user.setId(Integer.parseInt(userId));
+        }
+
+        user.setName(request.getParameter("name"));
+        user.setSurname(request.getParameter("surname"));
+
+        String age = request.getParameter("age");
+        if(!age.isEmpty()){
+            user.setAge(Integer.parseInt(age));
+        }
+
+        String gender = request.getParameter("gender");
+        if(gender!=null && !gender.isEmpty()){
+            user.setGender(gender.charAt(0));
+        }
+        user.setPhoneNumber(request.getParameter("phone_number"));
+        return user;
     }
 }

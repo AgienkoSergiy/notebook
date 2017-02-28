@@ -4,11 +4,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="../../favicon.ico">
+
+    <c:set var="root" value="${pageContext.request.contextPath}" />
+
+    <link rel="icon" href="${root}/resources/favicon.ico">
 
     <title>Users list</title>
 
-    <c:set var="root" value="${pageContext.request.contextPath}" />
     <link href="${root}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${root}/resources/css/style.css" rel="stylesheet">
 </head>
